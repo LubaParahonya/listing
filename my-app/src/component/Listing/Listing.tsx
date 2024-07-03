@@ -1,5 +1,5 @@
 import React from 'react'
-import data from './etsy.json'
+import './App.css'
 
 type Card = {
   listing_id: number, 
@@ -12,41 +12,57 @@ type Card = {
 }
 
 
-export default function Listing() {
-  const loadData = JSON.parse(JSON.stringify(data));
-  const item: Card[] = [];
-  loadData.map(el => item.push({listing_id: el.listing_id, 
-                                url: el.url, 
-                                mainImage: el.MainImage, 
-                                title: el.title, 
-                                currency_code: el.currency_code, 
-                                price: el.price, 
-                                quantity: el.quantity}))
+export default function Listing({info}: {info: Card[]}) {
+ 
+   function chooseCode(code: string, price: string){
+    if(code === 'USD'){
+      return '$' + price
+    }
+    if(code === 'EUR'){
+      return '€' + price
+    }
+    return code + price
+  }
   
+  function chooseLevel(quantity: number){
+      if(quantity <= 10){
+        return 'level-low'
+      }
+      if(quantity <=20){
+        return 'level-medium'
+      }
+      return 'level-high'
+  }
 
-return ( 
-    {item.map(card =>{
-      return(
-        <>
-        <div className="item-list">
-  <div className="item">
-    <div className="item-image">
-      <a href= {card.url}>
-        <img src={card.mainImage.url_570xN} />
-      </a>
-    </div>
-    <div className="item-details">
-      <p className="item-title">{card.title}</p>
-      <p className="item-price">{card.currency_code}{card.price}</p>
-      <p className="item-quantity level-medium">{card.quantity}</p>
+  function сutArray(titleName: string): string{
+    const lengthString = titleName?.split('');
+    if(lengthString?.length > 50){
+      titleName = titleName.substring(0, 49) + '...'
+      return titleName
+    }
+      return titleName
+  }
+  
+  return ( 
+    info?.map(card =>{
+        return(
+          <>
+          <div className="item-list">
+    <div className="item">
+      <div className="item-image">
+        <a href= {card.url}>
+          <img src={card.mainImage} />
+        </a>
+      </div>
+      <div className="item-details">
+        <p className="item-title">{сutArray(card.title)}</p>
+        <p className="item-price">{chooseCode(card.currency_code, card.price) }</p>
+        <p className={`item-quantity ${chooseLevel(card.quantity)}`}>{card.quantity}</p>
+      </div>
     </div>
   </div>
-</div>
-</>
-      )
-    })}
-  )
-}
-
-  
-
+  </>
+        )
+      })
+    )
+  }

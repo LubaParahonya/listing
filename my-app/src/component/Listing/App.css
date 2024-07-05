@@ -193,3 +193,11 @@ top:5px;
     column-count:5;
   }
 }
+
+.main {
+  display: block;
+  height: 100%;
+  width: 100%;
+
+
+}

@@ -1,5 +1,7 @@
 import React from 'react'
 import './App.css'
+import { v4 as uuidv4 } from 'uuid'
+
 
 type Card = {
   listing_id: number, 
@@ -13,6 +15,7 @@ type Card = {
 
 
 export default function Listing({info}: {info: Card[]}) {
+  
  
    function chooseCode(code: string, price: string){
     if(code === 'USD'){
@@ -42,27 +45,30 @@ export default function Listing({info}: {info: Card[]}) {
     }
       return titleName
   }
+
   
-  return ( 
+  
+  return (
     info?.map(card =>{
         return(
-          <>
-          <div className="item-list">
-    <div className="item">
-      <div className="item-image">
-        <a href= {card.url}>
-          <img src={card.mainImage} />
+         
+          <div key={uuidv4()} className="item-list">
+    <div key={uuidv4()} className="item">
+      <div key={uuidv4()} className="item-image">
+        <a key={uuidv4()} href= {card.url}>
+          <img key={uuidv4()} src={card.mainImage?.hasOwnProperty("url_570xN")? card.mainImage.url_570xN: 'Нет картинки' } />
         </a>
       </div>
-      <div className="item-details">
-        <p className="item-title">{сutArray(card.title)}</p>
-        <p className="item-price">{chooseCode(card.currency_code, card.price) }</p>
-        <p className={`item-quantity ${chooseLevel(card.quantity)}`}>{card.quantity}</p>
+      <div key={uuidv4()} className="item-details">
+        <p key={uuidv4()} className="item-title">{сutArray(card.title)}</p>
+        <p key={uuidv4()} className="item-price">{chooseCode(card.currency_code, card.price) }</p>
+        <p key={uuidv4()} className={`item-quantity ${chooseLevel(card.quantity)}`}>{card.quantity}</p>
       </div>
     </div>
   </div>
-  </>
+
         )
       })
+     
     )
   }

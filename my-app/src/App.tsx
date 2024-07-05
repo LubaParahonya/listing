@@ -25,10 +25,10 @@ data.map((el: any) => item.push({listing_id: el.listing_id,
  
 
   return (
-    <>
+    <div className='main'>
     
       <Listing info={item}/>
-    </>
+    </div>
   )
 }
 
